@@ -3,10 +3,12 @@ package com.angeliquehenry.tabsinlive;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -28,6 +30,8 @@ import java.util.List;
  * Display tab in the screen.
  */
 public class TabReaderActivity extends Activity {
+
+    private int screenHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +57,11 @@ public class TabReaderActivity extends Activity {
             spinner.setAdapter(adapter);
         }
 
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        screenHeight = size.y;
+
     }
 
     private void loadTab(Tab tab){
@@ -63,7 +72,7 @@ public class TabReaderActivity extends Activity {
             @Override
             public void onClick(View view) {
                 AppLogger.debug("Click on view");
-                scrollView.smoothScrollBy(0,300);
+                scrollView.smoothScrollBy(0,screenHeight/3);
             }
         };
 
