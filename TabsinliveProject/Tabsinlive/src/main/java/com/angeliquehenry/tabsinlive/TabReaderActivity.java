@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,7 +30,7 @@ import java.util.List;
 /**
  * Display tab in the screen.
  */
-public class TabReaderActivity extends Activity {
+public class TabReaderActivity extends Activity implements AdapterView.OnItemSelectedListener {
 
     private int screenHeight;
 
@@ -55,6 +56,7 @@ public class TabReaderActivity extends Activity {
 
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(adapter);
+            spinner.setOnItemSelectedListener(this);
         }
 
         Display display = getWindowManager().getDefaultDisplay();
@@ -71,11 +73,12 @@ public class TabReaderActivity extends Activity {
         View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AppLogger.debug("Click on view");
-                scrollView.smoothScrollBy(0,screenHeight/3);
+                scrollView.smoothScrollBy(0,screenHeight/2);
             }
         };
 
+        scrollView.scrollTo(0,0);
+        tabsContentScroll.removeAllViews();
         for(int image: tab.getSheets()){
             ImageView firstPageView = new ImageView(this);
             firstPageView.setImageResource(image);
@@ -86,5 +89,19 @@ public class TabReaderActivity extends Activity {
             firstPageView.setOnClickListener(clickListener);
             tabsContentScroll.addView(firstPageView);
         }
+    }
+
+
+    // ----- SPINNER ------------
+
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+        // An item was selected. You can retrieve the selected item using
+        AppLogger.debug("Clic sur "+pos);
+        Tab tab = (Tab)parent.getItemAtPosition(pos);
+        loadTab(tab);
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Another interface callback
     }
 }
