@@ -17,7 +17,7 @@ public class DataInitializer {
      * Tab list on the application
      * @return
      */
-    public List<Tab> getTablist(){
+    public List<Tab> getTabList(){
         ArrayList<Tab> tabs = new ArrayList<Tab>();
         tabs.add(getSuperbus());
 

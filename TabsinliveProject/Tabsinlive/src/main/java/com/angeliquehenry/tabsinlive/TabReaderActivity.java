@@ -9,13 +9,20 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 
 import com.angeliquehenry.tabsinlive.data.DataInitializer;
 import com.angeliquehenry.tabsinlive.entity.Tab;
 import com.angeliquehenry.tabsinlive.tools.AppLogger;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Display tab in the screen.
@@ -26,10 +33,25 @@ public class TabReaderActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //Remove title bar
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //Remove notification bar
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.tab_reader_activity);
 
         DataInitializer data = new DataInitializer();
-        loadTab(data.getSuperbus());
+
+        if(data.getTabList().size()>0){
+            loadTab(data.getTabList().get(0));
+
+            Spinner spinner = (Spinner) findViewById(R.id.tab_spinner);
+
+            ArrayAdapter<Tab> adapter = new ArrayAdapter<Tab>(this, R.layout.tab_spinner_view,data.getTabList());
+
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        }
 
     }
 
@@ -41,7 +63,7 @@ public class TabReaderActivity extends Activity {
             @Override
             public void onClick(View view) {
                 AppLogger.debug("Click on view");
-                scrollView.scrollBy(0, 100);
+                scrollView.smoothScrollBy(0,300);
             }
         };
 

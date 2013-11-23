@@ -35,4 +35,7 @@ public class Tab {
         this.title = title;
     }
 
+    public String toString(){
+        return title+"-"+singer;
+    }
 }
