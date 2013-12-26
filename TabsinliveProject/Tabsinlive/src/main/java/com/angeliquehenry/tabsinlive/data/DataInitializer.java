@@ -23,7 +23,21 @@ public class DataInitializer {
         tabs.add(getNewYork());
         tabs.add(getSoWhat());
         tabs.add(getAboutAGirl());
+        tabs.add(getLeBrio());
         return tabs;
+    }
+
+    private Tab getLeBrio() {
+        Tab brio = new Tab();
+        brio.setTitle("Le brio");
+        brio.setSinger("Big soul");
+
+        ArrayList<Integer> sheets = new ArrayList();
+        sheets.add(R.drawable.big_soul_le_brio);
+
+        brio.setSheets(sheets);
+
+        return brio;
     }
 
     private Tab getSuperbus()
