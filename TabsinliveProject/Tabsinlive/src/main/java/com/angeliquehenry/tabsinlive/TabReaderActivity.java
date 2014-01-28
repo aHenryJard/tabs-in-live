@@ -4,11 +4,9 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.Display;
 import android.view.View;
 import android.view.Window;
@@ -16,16 +14,19 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 
-import com.angeliquehenry.tabsinlive.data.DataInitializer;
+import com.angeliquehenry.tabsinlive.data.SheetDao;
+import com.angeliquehenry.tabsinlive.entity.Sheet;
 import com.angeliquehenry.tabsinlive.entity.Tab;
 import com.angeliquehenry.tabsinlive.tools.AppLogger;
+import com.angeliquehenry.tabsinlive.tools.ImageHelper;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Display tab in the screen.
@@ -56,6 +57,23 @@ public class TabReaderActivity extends Activity implements AdapterView.OnItemSel
 
     }
 
+    private void testDb() {
+
+        SheetDao sheetDao = new SheetDao(this);
+
+        Sheet sheet = new Sheet();
+        sheet.pageNumber = 3;
+
+        sheetDao.create(sheet);
+
+        List<Sheet> sheets = sheetDao.getAll();
+
+        AppLogger.debug("Sheets:");
+        for(Sheet s:sheets){
+            AppLogger.debug(""+s);
+        }
+    }
+
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void checkScreenSize(){
         Display display = getWindowManager().getDefaultDisplay();
@@ -65,7 +83,7 @@ public class TabReaderActivity extends Activity implements AdapterView.OnItemSel
     }
 
     private void loadExistingTabs() {
-        DataInitializer data = new DataInitializer();
+        /*DataInitializer data = new DataInitializer();
 
         if(data.getTabList().size()>0){
             loadTab(data.getTabList().get(0));
@@ -77,7 +95,7 @@ public class TabReaderActivity extends Activity implements AdapterView.OnItemSel
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(adapter);
             spinner.setOnItemSelectedListener(this);
-        }
+        }*/
     }
 
     private void loadTab(Tab tab){
@@ -86,7 +104,8 @@ public class TabReaderActivity extends Activity implements AdapterView.OnItemSel
 
         scrollView.scrollTo(0,0);
         tabsContentScroll.removeAllViews();
-        for(int image: tab.getSheets()){
+        //TODO
+        /*for(int image: tab.getSheets()){
             ImageView firstPageView = new ImageView(this);
             firstPageView.setImageResource(image);
             firstPageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
@@ -95,7 +114,7 @@ public class TabReaderActivity extends Activity implements AdapterView.OnItemSel
             firstPageView.setBackgroundColor(Color.BLACK);
             firstPageView.setOnClickListener(getScrollClickListener());
             tabsContentScroll.addView(firstPageView);
-        }
+        }*/
     }
 
     private View.OnClickListener getScrollClickListener() {
@@ -144,18 +163,13 @@ public class TabReaderActivity extends Activity implements AdapterView.OnItemSel
                 LinearLayout tabsContentScroll = (LinearLayout)findViewById(R.id.tab_tabList);
 
                 try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
+                    Bitmap bitmap = ImageHelper.getBitmapFromURI(selectedImageUri, this);
 
-                    ImageView firstPageView = new ImageView(this);
+                    ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
+                    boolean isCompressSuccess = bitmap.compress(Bitmap.CompressFormat.PNG,100,byteOutputStream);
 
-                    firstPageView.setImageBitmap(bitmap);
-                    firstPageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-                    firstPageView.setAdjustViewBounds(true);
-                    firstPageView.setPadding(1, 1, 1, 1);
-                    firstPageView.setBackgroundColor(Color.BLACK);
-                    firstPageView.setOnClickListener(getScrollClickListener());
-                    tabsContentScroll.addView(firstPageView);
-                    AppLogger.debug("Image added");
+                    //TODO ici
+                    byteOutputStream.toByteArray();
 
                 } catch (IOException e) {
                     e.printStackTrace();

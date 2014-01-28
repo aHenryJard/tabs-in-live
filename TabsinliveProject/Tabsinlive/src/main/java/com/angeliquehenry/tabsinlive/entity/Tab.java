@@ -1,41 +1,25 @@
 package com.angeliquehenry.tabsinlive.entity;
 
+
+import java.util.Collection;
 import java.util.List;
 
 /**
  * Represent one tab with several sheets.
  */
+//@DatabaseTable(tableName = "tab")
 public class Tab {
 
-    private String title;
-    private String singer;
-    private List<Integer> sheets;
+    //@DatabaseField(generatedId = true)
+    public int id;
 
-    public String getSinger() {
-        return singer;
-    }
+    //@DatabaseField
+    public String title;
 
-    public void setSinger(String singer) {
-        this.singer = singer;
-    }
-
-    public List<Integer> getSheets() {
-        return sheets;
-    }
-
-    public void setSheets(List<Integer> sheets) {
-        this.sheets = sheets;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    //@DatabaseField
+    public String singer;
 
     public String toString(){
-        return title+"-"+singer;
+        return "Tab{id:"+id+",title:"+title+",singer:"+singer+"}";
     }
 }
