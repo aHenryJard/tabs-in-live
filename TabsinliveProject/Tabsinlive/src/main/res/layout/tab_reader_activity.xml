@@ -41,10 +41,20 @@
 
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
                 android:gravity="center_horizontal|top"
-                android:id="@+id/tab_tabList"></LinearLayout>
+                android:id="@+id/tab_tabList"
+                android:background="#c138ff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1195dp"
+                    android:id="@+id/imageView"
+                    android:src="@drawable/default_tab"
+                    android:scaleType="fitStart" />
+
+            </LinearLayout>
         </ScrollView>
     </LinearLayout>
 

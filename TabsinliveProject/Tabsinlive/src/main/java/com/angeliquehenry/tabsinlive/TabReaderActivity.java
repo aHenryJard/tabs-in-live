@@ -14,11 +14,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.angeliquehenry.tabsinlive.data.CacheManager;
 import com.angeliquehenry.tabsinlive.data.SheetDao;
@@ -31,6 +31,7 @@ import com.angeliquehenry.tabsinlive.tools.ImageHelper;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -39,6 +40,7 @@ import java.util.List;
 public class TabReaderActivity extends Activity implements AdapterView.OnItemSelectedListener {
 
     private int screenHeight;
+    private int screenWidth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,13 @@ public class TabReaderActivity extends Activity implements AdapterView.OnItemSel
 
         setContentView(R.layout.tab_reader_activity);
         loadExistingTabs();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
 
     }
 
@@ -77,6 +86,7 @@ public class TabReaderActivity extends Activity implements AdapterView.OnItemSel
         Point size = new Point();
         display.getSize(size);
         screenHeight = size.y;
+        screenWidth = size.x;
     }
 
     private void loadExistingTabs() {
@@ -103,6 +113,8 @@ public class TabReaderActivity extends Activity implements AdapterView.OnItemSel
         scrollView.scrollTo(0,0);
         tabsContentScroll.removeAllViews();
 
+        Collections.sort(tab.sheets);
+
         for(Sheet sheet: tab.sheets){
 
             Bitmap bitmap;
@@ -114,15 +126,35 @@ public class TabReaderActivity extends Activity implements AdapterView.OnItemSel
                 bitmap = ImageHelper.getBitmapFromBytes(sheet.image);
             }
 
-            ImageView firstPageView = new ImageView(this);
-            firstPageView.setImageBitmap(bitmap);
-            firstPageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            firstPageView.setAdjustViewBounds(true);
-            firstPageView.setPadding(1, 1, 1, 1);
-            firstPageView.setBackgroundColor(Color.BLACK);
-            firstPageView.setOnClickListener(getScrollClickListener());
-            tabsContentScroll.addView(firstPageView);
+            Toast.makeText(this,"Bm height:"+bitmap.getHeight(),1).show();
+           // LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, bitmap.getHeight());
+
+            ImageView currentSheetView = new ImageView(this);
+            //currentSheetView.setLayoutParams(layoutParams);
+            currentSheetView.setImageBitmap(bitmap);
+            currentSheetView.setScaleType(ImageView.ScaleType.FIT_START);
+            currentSheetView.setAdjustViewBounds(true);
+
+            currentSheetView.setPadding(1, 1, 1, 1);
+            currentSheetView.setBackgroundColor(Color.BLACK);
+            currentSheetView.setOnClickListener(getScrollClickListener());
+            tabsContentScroll.addView(currentSheetView);
         }
+    }
+
+    private float getBitmapScalingFactor(Bitmap bm) {
+        // Get display width from device
+        int displayWidth = getWindowManager().getDefaultDisplay().getWidth();
+
+        // Get margin to use it for calculating to max width of the ImageView
+        int leftMargin = 0;
+        int rightMargin = 0;
+
+        // Calculate the max width of the imageView
+        int imageViewWidth = displayWidth - (leftMargin + rightMargin);
+
+        // Calculate scaling factor and return it
+        return ( (float) imageViewWidth / (float) bm.getWidth() );
     }
 
     private View.OnClickListener getScrollClickListener() {

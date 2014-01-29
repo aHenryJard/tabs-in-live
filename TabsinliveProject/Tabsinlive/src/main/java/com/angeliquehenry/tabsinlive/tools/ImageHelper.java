@@ -54,8 +54,15 @@ public class ImageHelper {
 
     public static Bitmap getImageFromSdCard(String filePath){
         BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 2;
+        //options.inSampleSize = 2;
         Bitmap bm = BitmapFactory.decodeFile(filePath, options);
         return bm;
+    }
+
+    public static Bitmap ScaleBitmap(Bitmap bm, float scalingFactor) {
+        int scaleHeight = (int) (bm.getHeight() * scalingFactor);
+        int scaleWidth = (int) (bm.getWidth() * scalingFactor);
+
+        return Bitmap.createScaledBitmap(bm, scaleWidth, scaleHeight, true);
     }
 }

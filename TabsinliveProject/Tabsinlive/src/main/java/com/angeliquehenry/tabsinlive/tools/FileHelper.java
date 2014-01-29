@@ -83,7 +83,7 @@ public class FileHelper {
                             sheet.imagePath=currentSheetFile.getPath();
                             sheet.tab=tab;
 
-                            tab.sheets.add(sheet);
+                            tab.getSheets().add(sheet);
                         }
                         concert.tabs.add(tab);
                     }
