@@ -1,5 +1,6 @@
 package com.angeliquehenry.tabsinlive.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -7,23 +8,10 @@ import java.util.List;
  */
 public class Concert {
 
-    private String label;
+    public String label;
+    public ArrayList<Tab> tabs=new ArrayList<Tab>();
 
-    private List<Tab> tabs;
-
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
-    public List<Tab> getTabs() {
-        return tabs;
-    }
-
-    public void setTabs(List<Tab> tabs) {
-        this.tabs = tabs;
+    public String toString(){
+        return "Concert{label:"+label+",tabs:"+tabs+"}";
     }
 }

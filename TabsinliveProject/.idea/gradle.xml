@@ -8,7 +8,6 @@
         <option name="gradleHome" value="D:/Appli/gradle-1.9" />
       </GradleProjectSettings>
     </option>
-    <option name="gradleVmOptions" value="-Xmx1024m -Xms512m" />
   </component>
 </project>
 

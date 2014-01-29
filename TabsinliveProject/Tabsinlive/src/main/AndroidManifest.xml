@@ -13,7 +13,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
         <activity
-            android:name=".TabCreatorActivity"
+            android:name="com.angeliquehenry.tabsinlive.HomeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name" >
             <intent-filter>
@@ -21,6 +21,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.angeliquehenry.tabsinlive.TabReaderActivity"
+            android:label="@string/title_activity_home" >
         </activity>
     </application>
 

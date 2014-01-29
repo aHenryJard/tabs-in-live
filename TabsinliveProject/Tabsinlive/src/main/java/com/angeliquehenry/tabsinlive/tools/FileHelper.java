@@ -2,10 +2,14 @@ package com.angeliquehenry.tabsinlive.tools;
 
 import android.os.Environment;
 
+import com.angeliquehenry.tabsinlive.data.CacheManager;
 import com.angeliquehenry.tabsinlive.entity.Concert;
+import com.angeliquehenry.tabsinlive.entity.Sheet;
+import com.angeliquehenry.tabsinlive.entity.Tab;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.util.ArrayList;
 
 /**
  * Utilities for reading images on filesystem.
@@ -36,7 +40,7 @@ public class FileHelper {
 
         //Get all concerts in the folder
         File[] concertsFile = rootFile[0].listFiles();
-        Concert[] concerts = new Concert[concertsFile.length];
+        ArrayList<Concert> concerts = new ArrayList<Concert>();
 
         for(File currentConcertFile:concertsFile){
 
@@ -45,7 +49,7 @@ public class FileHelper {
             //if it's no a directory, it's not processed.
             if(currentConcertFile.isDirectory()){
                 Concert concert = new Concert();
-                concert.setLabel(currentConcertFile.getName());
+                concert.label = currentConcertFile.getName();
 
                 File[] tabsFile = currentConcertFile.listFiles();
                 for(File currentTabFile:tabsFile){
@@ -54,18 +58,42 @@ public class FileHelper {
 
                     //if it's not a dir, it's not processed.
                     if(currentTabFile.isDirectory()){
+                        Tab tab = new Tab();
+                        tab.title = currentTabFile.getName();
                         File[] sheetsFile = currentTabFile.listFiles();
+
+                        int defaultPageNumber=0;
+                        int id=0;
                         for(File currentSheetFile:sheetsFile){
                             AppLogger.debug("Current sheet is "+currentSheetFile.getName());
-                        }
+                            int pageNumber=defaultPageNumber;
 
+                            //try to guess page number, if not order is arbitrary
+                            try{
+                                String[] splitName= currentSheetFile.getName().split(" ");
+                                defaultPageNumber = Integer.parseInt(splitName[0]);
+                            }catch(Exception e){
+                                defaultPageNumber++;
+                            }
+
+                            Sheet sheet = new Sheet();
+                            sheet.id=id;
+                            id++;
+                            sheet.pageNumber=pageNumber;
+                            sheet.imagePath=currentSheetFile.getPath();
+                            sheet.tab=tab;
+
+                            tab.sheets.add(sheet);
+                        }
+                        concert.tabs.add(tab);
                     }
                 }
-
+                concerts.add(concert);
             }
 
         }
-
+        AppLogger.debug("At the end, concerts are "+concerts);
+        CacheManager.getInstance().setConcerts(concerts);
     }
 
     FileFilter tabinliveRootFilter = new FileFilter() {

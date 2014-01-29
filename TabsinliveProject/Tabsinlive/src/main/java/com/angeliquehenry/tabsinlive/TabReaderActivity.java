@@ -18,7 +18,9 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 
+import com.angeliquehenry.tabsinlive.data.CacheManager;
 import com.angeliquehenry.tabsinlive.data.SheetDao;
+import com.angeliquehenry.tabsinlive.entity.Concert;
 import com.angeliquehenry.tabsinlive.entity.Sheet;
 import com.angeliquehenry.tabsinlive.entity.Tab;
 import com.angeliquehenry.tabsinlive.tools.AppLogger;
@@ -26,6 +28,7 @@ import com.angeliquehenry.tabsinlive.tools.ImageHelper;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,14 +49,6 @@ public class TabReaderActivity extends Activity implements AdapterView.OnItemSel
 
         setContentView(R.layout.tab_reader_activity);
         loadExistingTabs();
-
-        Button importTabButton = (Button)findViewById(R.id.import_image_bt);
-        importTabButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                callImagePickerIntent();
-            }
-        });
 
     }
 
@@ -96,6 +91,21 @@ public class TabReaderActivity extends Activity implements AdapterView.OnItemSel
             spinner.setAdapter(adapter);
             spinner.setOnItemSelectedListener(this);
         }*/
+
+        ArrayList<Concert> concerts = CacheManager.getInstance().getConcerts();
+        Concert currentConcert = concerts.get(0);
+
+        if(currentConcert.tabs.size()>0){
+            loadTab(currentConcert.tabs.get(0));
+
+            Spinner spinner = (Spinner) findViewById(R.id.tab_spinner);
+
+            ArrayAdapter<Tab> adapter = new ArrayAdapter<Tab>(this, R.layout.tab_spinner_view,currentConcert.tabs);
+
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+            spinner.setOnItemSelectedListener(this);
+        }
     }
 
     private void loadTab(Tab tab){
