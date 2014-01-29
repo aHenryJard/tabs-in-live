@@ -51,4 +51,11 @@ public class ImageHelper {
     public static Bitmap getBitmapFromBytes(byte[] image) {
         return BitmapFactory.decodeByteArray(image,0,image.length);
     }
+
+    public static Bitmap getImageFromSdCard(String filePath){
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 2;
+        Bitmap bm = BitmapFactory.decodeFile(filePath, options);
+        return bm;
+    }
 }

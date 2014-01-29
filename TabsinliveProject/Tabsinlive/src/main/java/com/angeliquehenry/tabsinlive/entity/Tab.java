@@ -16,6 +16,6 @@ public class Tab {
     public ArrayList<Sheet> sheets=new ArrayList<Sheet>();
 
     public String toString(){
-        return "Tab{id:"+id+",title:"+title+",singer:"+singer+",sheets:"+sheets+"}";
+        return title;
     }
 }

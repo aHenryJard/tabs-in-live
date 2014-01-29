@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
@@ -78,20 +80,6 @@ public class TabReaderActivity extends Activity implements AdapterView.OnItemSel
     }
 
     private void loadExistingTabs() {
-        /*DataInitializer data = new DataInitializer();
-
-        if(data.getTabList().size()>0){
-            loadTab(data.getTabList().get(0));
-
-            Spinner spinner = (Spinner) findViewById(R.id.tab_spinner);
-
-            ArrayAdapter<Tab> adapter = new ArrayAdapter<Tab>(this, R.layout.tab_spinner_view,data.getTabList());
-
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spinner.setAdapter(adapter);
-            spinner.setOnItemSelectedListener(this);
-        }*/
-
         ArrayList<Concert> concerts = CacheManager.getInstance().getConcerts();
         Concert currentConcert = concerts.get(0);
 
@@ -114,17 +102,27 @@ public class TabReaderActivity extends Activity implements AdapterView.OnItemSel
 
         scrollView.scrollTo(0,0);
         tabsContentScroll.removeAllViews();
-        //TODO
-        /*for(int image: tab.getSheets()){
+
+        for(Sheet sheet: tab.sheets){
+
+            Bitmap bitmap;
+            if(sheet.image==null){
+                //load image from path
+                bitmap = ImageHelper.getImageFromSdCard(sheet.imagePath);
+            }
+            else{
+                bitmap = ImageHelper.getBitmapFromBytes(sheet.image);
+            }
+
             ImageView firstPageView = new ImageView(this);
-            firstPageView.setImageResource(image);
-            firstPageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            firstPageView.setImageBitmap(bitmap);
+            firstPageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             firstPageView.setAdjustViewBounds(true);
             firstPageView.setPadding(1, 1, 1, 1);
             firstPageView.setBackgroundColor(Color.BLACK);
             firstPageView.setOnClickListener(getScrollClickListener());
             tabsContentScroll.addView(firstPageView);
-        }*/
+        }
     }
 
     private View.OnClickListener getScrollClickListener() {

@@ -9,7 +9,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tab_creator_view_image"
-        android:src="@drawable/new_york_1"
         android:layout_gravity="center_horizontal|top"
         android:scaleType="fitStart" />
 
