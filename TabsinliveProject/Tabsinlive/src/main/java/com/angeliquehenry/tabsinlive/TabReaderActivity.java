@@ -1,6 +1,5 @@
 package com.angeliquehenry.tabsinlive;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -35,6 +34,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import android.annotation.TargetApi;
+
 /**
  * Display tab in the screen.
  */
@@ -54,7 +55,7 @@ public class TabReaderActivity extends Activity implements AdapterView.OnItemSel
 
         setContentView(R.layout.tab_reader_activity);
         loadExistingTabs();
-
+        checkScreenSize();
     }
 
     @Override
@@ -88,23 +89,35 @@ public class TabReaderActivity extends Activity implements AdapterView.OnItemSel
         display.getSize(size);
         screenHeight = size.y;
         screenWidth = size.x;
-    }
+
+        if(screenHeight==0){
+            screenHeight = 800;
+        }
+    }x
 
     private void loadExistingTabs() {
         ArrayList<Concert> concerts = CacheManager.getInstance().getConcerts();
-        Concert currentConcert = concerts.get(0);
 
-        if(currentConcert.tabs.size()>0){
-            loadTab(currentConcert.tabs.get(0));
+        if(concerts.size()>0){
+            Concert currentConcert = concerts.get(0);
 
-            Spinner spinner = (Spinner) findViewById(R.id.tab_spinner);
+            if(currentConcert.tabs.size()>0){
+                loadTab(currentConcert.tabs.get(0));
 
-            ArrayAdapter<Tab> adapter = new ArrayAdapter<Tab>(this, R.layout.tab_spinner_view,currentConcert.tabs);
+                Spinner spinner = (Spinner) findViewById(R.id.tab_spinner);
 
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spinner.setAdapter(adapter);
-            spinner.setOnItemSelectedListener(this);
+                ArrayAdapter<Tab> adapter = new ArrayAdapter<Tab>(this, R.layout.tab_spinner_view,currentConcert.tabs);
+
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(adapter);
+                spinner.setOnItemSelectedListener(this);
+            }
         }
+        else
+        {
+            Toast.makeText(this,"No tabs are loaded, you should maybe import some.",1).show();
+        }
+
     }
 
     private void loadTab(Tab tab){
@@ -127,7 +140,7 @@ public class TabReaderActivity extends Activity implements AdapterView.OnItemSel
                 bitmap = ImageHelper.getBitmapFromBytes(sheet.image);
             }
 
-            Toast.makeText(this,"Bm height:"+bitmap.getHeight(),1).show();
+            //Toast.makeText(this,"Bm height:"+bitmap.getHeight(),1).show();
            // LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, bitmap.getHeight());
 
             ImageView currentSheetView = new ImageView(this);
@@ -165,7 +178,7 @@ public class TabReaderActivity extends Activity implements AdapterView.OnItemSel
         View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AppLogger.debug("Clic sur page");
+                AppLogger.debug("Clic sur page, hauteur:"+screenHeight/2);
                 scrollView.smoothScrollBy(0,screenHeight/2);
             }
         };

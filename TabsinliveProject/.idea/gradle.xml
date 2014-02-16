@@ -3,12 +3,11 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="createEmptyContentRootDirectories" value="true" />
-        <option name="distributionType" value="WRAPPED" />
-        <option name="externalProjectPath" value="D:\Projets\tabs-in-live\TabsinliveProject" />
-        <option name="gradleHome" value="D:/Appli/gradle-1.9" />
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
       </GradleProjectSettings>
     </option>
+    <option name="gradleVmOptions" value="-Xmx1024m -Xms512m" />
   </component>
 </project>
 
