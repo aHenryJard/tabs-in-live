@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.Window;
@@ -139,6 +140,8 @@ public class TabReaderActivity extends Activity implements AdapterView.OnItemSel
             currentSheetView.setBackgroundColor(Color.BLACK);
             currentSheetView.setOnClickListener(getScrollClickListener());
             tabsContentScroll.addView(currentSheetView);
+
+            tabsContentScroll.setOnClickListener(getScrollClickListener());
         }
     }
 
@@ -162,6 +165,7 @@ public class TabReaderActivity extends Activity implements AdapterView.OnItemSel
         View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                AppLogger.debug("Clic sur page");
                 scrollView.smoothScrollBy(0,screenHeight/2);
             }
         };
