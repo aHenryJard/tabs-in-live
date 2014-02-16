@@ -18,4 +18,8 @@ public class Tab {
     public String toString(){
         return title;
     }
+
+    public ArrayList<Sheet> getSheets(){
+        return sheets;
+    }
 }
