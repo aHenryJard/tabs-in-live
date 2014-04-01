@@ -1,6 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:background="#0099cc"
     tools:context=".TabReaderActivity">
@@ -26,9 +26,24 @@
             <Spinner
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tab_spinner"
+                android:id="@+id/concert_spinner"
                 android:layout_gravity="left|top"
-                android:background="#000000" />
+                android:background="#000000"
+                android:layout_marginRight="15dp" />
+
+            <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tab_spinner"
+            android:layout_gravity="left|top"
+            android:background="#000000" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" > "
+                android:id="@+id/tab_reader_next_bt" />
 
         </LinearLayout>
 

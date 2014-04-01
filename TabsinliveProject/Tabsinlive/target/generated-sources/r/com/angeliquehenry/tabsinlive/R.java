@@ -27,11 +27,12 @@ public final class R {
         public static final int ic_launcher=0x7f020001;
     }
     public static final class id {
-        public static final int action_settings=0x7f080015;
+        public static final int action_settings=0x7f080017;
+        public static final int concert_spinner=0x7f080010;
         public static final int container=0x7f080000;
         public static final int home_import_bt=0x7f080002;
         public static final int home_read_bt=0x7f080001;
-        public static final int imageView=0x7f080013;
+        public static final int imageView=0x7f080015;
         public static final int tab_creator_import_bt=0x7f080005;
         public static final int tab_creator_save_bt=0x7f080006;
         public static final int tab_creator_scrollview=0x7f080007;
@@ -45,10 +46,11 @@ public final class R {
         public static final int tab_creator_view_image_bt=0x7f08000b;
         public static final int tab_creator_view_page_text=0x7f08000a;
         public static final int tab_creator_view_up_button=0x7f08000c;
-        public static final int tab_scrollView=0x7f080011;
-        public static final int tab_spinner=0x7f080010;
-        public static final int tab_spinner_text=0x7f080014;
-        public static final int tab_tabList=0x7f080012;
+        public static final int tab_reader_next_bt=0x7f080012;
+        public static final int tab_scrollView=0x7f080013;
+        public static final int tab_spinner=0x7f080011;
+        public static final int tab_spinner_text=0x7f080016;
+        public static final int tab_tabList=0x7f080014;
     }
     public static final class layout {
         public static final int home_activity=0x7f030000;

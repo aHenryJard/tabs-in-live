@@ -11,7 +11,11 @@ public class Concert {
     public String label;
     public ArrayList<Tab> tabs=new ArrayList<Tab>();
 
+    /**
+     * WARNING used by spinner adapter.
+     * @return
+     */
     public String toString(){
-        return "Concert{label:"+label+",tabs:"+tabs+"}";
+        return label;
     }
 }

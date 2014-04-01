@@ -12,6 +12,8 @@ import com.angeliquehenry.tabsinlive.tools.AppLogger;
 import com.angeliquehenry.tabsinlive.tools.FileHelper;
 import com.angeliquehenry.tabsinlive.tools.FileScanException;
 
+import android.widget.Toast;
+
 public class HomeActivity extends Activity {
 
     @Override
@@ -30,6 +32,8 @@ public class HomeActivity extends Activity {
                     helper.importTabsFromSDCard();
                     AppLogger.debug("Concerts:"+CacheManager.getInstance().getConcerts());
 
+                    Toast.makeText(getContext(),"Import is done.",1).show();
+
                 } catch (FileScanException e) {
                     e.printStackTrace();
                 }
@@ -43,6 +47,10 @@ public class HomeActivity extends Activity {
                 startActivity(readTabsIntent);
             }
         });
+    }
+
+    private Activity getContext(){
+        return this;
     }
 
 }

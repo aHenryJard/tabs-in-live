@@ -7,13 +7,13 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -21,7 +21,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.angeliquehenry.tabsinlive.data.CacheManager;
-import com.angeliquehenry.tabsinlive.data.SheetDao;
 import com.angeliquehenry.tabsinlive.entity.Concert;
 import com.angeliquehenry.tabsinlive.entity.Sheet;
 import com.angeliquehenry.tabsinlive.entity.Tab;
@@ -36,10 +35,12 @@ import java.util.List;
 
 import android.annotation.TargetApi;
 
+import android.os.CountDownTimer;
+
 /**
  * Display tab in the screen.
  */
-public class TabReaderActivity extends Activity implements AdapterView.OnItemSelectedListener {
+public class TabReaderActivity extends Activity {
 
     private int screenHeight;
     private int screenWidth;
@@ -56,6 +57,8 @@ public class TabReaderActivity extends Activity implements AdapterView.OnItemSel
         setContentView(R.layout.tab_reader_activity);
         loadExistingTabs();
         checkScreenSize();
+
+
     }
 
     @Override
@@ -65,22 +68,6 @@ public class TabReaderActivity extends Activity implements AdapterView.OnItemSel
 
     }
 
-    private void testDb() {
-
-        SheetDao sheetDao = new SheetDao(this);
-
-        Sheet sheet = new Sheet();
-        sheet.pageNumber = 3;
-
-        sheetDao.create(sheet);
-
-        List<Sheet> sheets = sheetDao.getAll();
-
-        AppLogger.debug("Sheets:");
-        for(Sheet s:sheets){
-            AppLogger.debug(""+s);
-        }
-    }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void checkScreenSize(){
@@ -93,31 +80,73 @@ public class TabReaderActivity extends Activity implements AdapterView.OnItemSel
         if(screenHeight==0){
             screenHeight = 800;
         }
-    }x
+    }
 
     private void loadExistingTabs() {
         ArrayList<Concert> concerts = CacheManager.getInstance().getConcerts();
 
         if(concerts.size()>0){
-            Concert currentConcert = concerts.get(0);
+            final Spinner concertSpinner = (Spinner) findViewById(R.id.concert_spinner);
+            ArrayAdapter<Concert> concertAdapter = new ArrayAdapter<Concert>(this, R.layout.tab_spinner_view,concerts);
+            concertAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            concertSpinner.setAdapter(concertAdapter);
+            concertSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+                public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                    // An item was selected. You can retrieve the selected item using
+                    AppLogger.debug("Clic concert sur "+pos);
+                    Concert concert = (Concert)parent.getItemAtPosition(pos);
+                    initTabsForConcert(concert);
+                }
 
-            if(currentConcert.tabs.size()>0){
-                loadTab(currentConcert.tabs.get(0));
+                public void onNothingSelected(AdapterView<?> parent) {
+                    // Another interface callback
+                }
+            });
 
-                Spinner spinner = (Spinner) findViewById(R.id.tab_spinner);
-
-                ArrayAdapter<Tab> adapter = new ArrayAdapter<Tab>(this, R.layout.tab_spinner_view,currentConcert.tabs);
-
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner.setAdapter(adapter);
-                spinner.setOnItemSelectedListener(this);
-            }
         }
         else
         {
             Toast.makeText(this,"No tabs are loaded, you should maybe import some.",1).show();
         }
 
+    }
+
+    private void initTabsForConcert(final Concert concert){
+        if(concert.tabs.size()>0){
+            loadTab(concert.tabs.get(0));
+
+            final Spinner spinner = (Spinner) findViewById(R.id.tab_spinner);
+
+            ArrayAdapter<Tab> adapter = new ArrayAdapter<Tab>(this, R.layout.tab_spinner_view,concert.tabs);
+
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+                public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                    // An item was selected. You can retrieve the selected item using
+                    AppLogger.debug("Clic tab sur "+pos);
+                    Tab tab = (Tab)parent.getItemAtPosition(pos);
+                    loadTab(tab);
+                }
+
+                public void onNothingSelected(AdapterView<?> parent) {
+                    // Another interface callback
+                }
+            });
+
+            Button nextButton = (Button)findViewById(R.id.tab_reader_next_bt);
+            nextButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int currentSelection = spinner.getSelectedItemPosition();
+                    int nextSelected = currentSelection+1;
+                    if(currentSelection>concert.tabs.size()){
+                        nextSelected=0;
+                    }
+                    spinner.setSelection(nextSelected);
+                }
+            });
+        }
     }
 
     private void loadTab(Tab tab){
@@ -178,26 +207,34 @@ public class TabReaderActivity extends Activity implements AdapterView.OnItemSel
         View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AppLogger.debug("Clic sur page, hauteur:"+screenHeight/2);
-                scrollView.smoothScrollBy(0,screenHeight/2);
+                scrollDownTab();
             }
         };
 
         return clickListener;
     }
 
+    //ancienne version
+    /*private void scrollDownTab(){
+        AppLogger.debug("Scroll page, hauteur:"+screenHeight/2);
+        final ScrollView scrollView = (ScrollView)findViewById(R.id.tab_scrollView);
+        scrollView.smoothScrollBy(0,screenHeight/2);
+    }*/
 
-    // ----- SPINNER ------------
+    private void scrollDownTab(){
+        AppLogger.debug("Scroll page, hauteur:"+screenHeight/2);
+        final ScrollView scrollView = (ScrollView)findViewById(R.id.tab_scrollView);
+        CountDownTimer timer = new CountDownTimer(2000, 20) {
 
-    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        // An item was selected. You can retrieve the selected item using
-        AppLogger.debug("Clic sur "+pos);
-        Tab tab = (Tab)parent.getItemAtPosition(pos);
-        loadTab(tab);
-    }
+            public void onTick(long millisUntilFinished) {
 
-    public void onNothingSelected(AdapterView<?> parent) {
-        // Another interface callback
+                scrollView.scrollTo(0, (int) (2000 - millisUntilFinished));
+            }
+
+            public void onFinish() {
+            }
+
+        }.start();
     }
 
     // -----------------------------------------

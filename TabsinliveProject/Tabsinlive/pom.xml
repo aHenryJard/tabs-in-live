@@ -24,11 +24,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>com.j256.ormlite</groupId>
-            <artifactId>ormlite-android</artifactId>
-            <version>4.46</version>
-        </dependency>
     </dependencies>
 
     <build>
