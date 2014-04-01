@@ -43,7 +43,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" > "
-                android:id="@+id/tab_reader_next_bt" />
+                android:id="@+id/tab_reader_next_bt"
+                android:layout_gravity="right" />
 
         </LinearLayout>
 
