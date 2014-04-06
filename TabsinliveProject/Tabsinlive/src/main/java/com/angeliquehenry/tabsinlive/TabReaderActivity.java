@@ -215,13 +215,13 @@ public class TabReaderActivity extends Activity {
     }
 
     //ancienne version
-    /*private void scrollDownTab(){
+    private void scrollDownTab(){
         AppLogger.debug("Scroll page, hauteur:"+screenHeight/2);
         final ScrollView scrollView = (ScrollView)findViewById(R.id.tab_scrollView);
         scrollView.smoothScrollBy(0,screenHeight/2);
-    }*/
+    }
 
-    private void scrollDownTab(){
+    /*private void scrollDownTab(){
         AppLogger.debug("Scroll page, hauteur:"+screenHeight/2);
         final ScrollView scrollView = (ScrollView)findViewById(R.id.tab_scrollView);
         CountDownTimer timer = new CountDownTimer(2000, 20) {
@@ -235,7 +235,7 @@ public class TabReaderActivity extends Activity {
             }
 
         }.start();
-    }
+    }*/
 
     // -----------------------------------------
     // -- Selection des images -----------------
