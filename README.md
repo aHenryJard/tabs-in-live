@@ -1,5 +1,6 @@
-tabs-in-live
-============
+# tabs-in-live
+
+## Android app
 
 Android application to display tabs/music sheet on tablet, and scroll it with feet (when playing bass, it's hard to scroll with fingers).
 I didn't find a mouse usable with feet, so I used a regular mouse with a box around to allow me to only click on the left click. If someone knows a better solution, please tell me :)
@@ -30,3 +31,12 @@ Display tabs
 ------------
 
 After importing you png files, you can open your tabs. On the top of the screen, there are 2 list box : one to select the concert, and the second to select the tab.
+
+## Installation
+
+I will soon move to gradle, but for now I'm using maven.
+
+1. Go to TabsinliveProject/Tabsinlive where the pom.xml is
+2. Make ** mvn clean install **
+3. Connect you favorite Android device, OS > 4.0
+4. Launch ** mvn android:redeploy android:run **
