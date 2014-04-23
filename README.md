@@ -37,6 +37,6 @@ After importing you png files, you can open your tabs. On the top of the screen,
 I will soon move to gradle, but for now I'm using maven.
 
 1. Go to TabsinliveProject/Tabsinlive where the pom.xml is
-2. Make ** mvn clean install **
+2. Make **mvn clean install**
 3. Connect you favorite Android device, OS > 4.0
-4. Launch ** mvn android:redeploy android:run **
+4. Launch **mvn android:redeploy android:run**
