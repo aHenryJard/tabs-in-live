@@ -1,13 +1,32 @@
 tabs-in-live
 ============
 
-Android application to display tabs on tablet.
+Android application to display tabs/music sheet on tablet, and scroll it with feet (when playing bass, it's hard to scroll with fingers).
+I didn't find a mouse usable with feet, so I used a regular mouse with a box around to allow me to only click on the left click. If someone knows a better solution, please tell me :)
 
-The aim of this application is to read A4 tabs (or other kind of paper) and allows the user to scroll down with a single click.
-I use it to read bass tab, and scroll down with my foot in studio.
 
-This is the very beginning, so a lot of things are static, and I only test it on my own tablet.
+This is the very beginning, so a lot of things are static, and I only test it on my own tablet (archos titanium).
 
-To import tabs, the path must be: <sdcard>/tabsinlive/<concertName>/<tabName>/1 sheet.png
+Import tabs
+-----------
 
-To order sheets, you have to name it prefixed by page number and a space. "1 my song.png, 2 my song.png"
+For now, there is not recording of tabs in the app. File are taken from the sdcard.
+On the first screen, you have to import tabs and wait for the "import is done" toast.
+
+The app manage 2 level of folder:
+* concert 1
+ * song 1
+  * file1.png
+  * file2.png
+ * song 2
+  * file1.png
+  * file2.png
+
+File are displayed in the alphabetic order, so if you want to order, you can prefix it with a digit.
+
+To import tabs, the path must be: **/sdcard/tabsinlive/**concertName/tabName/1 sheet.png
+
+Display tabs
+------------
+
+After importing you png files, you can open your tabs. On the top of the screen, there are 2 list box : one to select the concert, and the second to select the tab.
