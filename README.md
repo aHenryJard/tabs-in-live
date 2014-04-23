@@ -16,11 +16,11 @@ On the first screen, you have to import tabs and wait for the "import is done" t
 The app manage 2 level of folder:
 * concert 1
  * song 1
-  * file1.png
-  * file2.png
+  - file1.png
+  - file2.png
  * song 2
-  * file1.png
-  * file2.png
+  - file1.png
+  - file2.png
 
 File are displayed in the alphabetic order, so if you want to order, you can prefix it with a digit.
 
